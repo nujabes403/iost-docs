@@ -1,15 +1,17 @@
 ---
 id: Database
-title: Database
-sidebar_label: Database
+title: 데이터베이스
+sidebar_label: 데이터베이스
 ---
 
-The database layer of IOST is structured as below:
+IOST의 데이터베이스 레이어는 다음과 같이 구성됩니다.
 
-![statedb](assets/2-intro-of-iost/Database/statedb.png)
+![statedb](../assets/2-intro-of-iost/Database/statedb.png)
 
-The lowest level is Storage, which provides final persistence of data. We adopt the simplest key-value database form factor, and achieve access to different databases by writing to different database backends.
+데이터베이스 레이어를 구성하는 하위 레이어는 '스토리지'입니다. 스토리지에서 최종적으로 데이터를 영속하는 공간인데, 이를 위해 키-밸류 쌍의 단순한 데이터베이스 형태를 사용합니다. 또한, 그림에서 보시는 것 처럼, 스토리지를 통해 `LevelDB`, `RocksDB`나 그 밖에 다른 데이터베이스 백엔드에 접근하여 쓰는 것이 가능합니다.
 
-Due to the paradigm of data handling on the blockchain, we use MVCC cache to process requests and cache them concurrently in memory. This improves usability and performance.
+데이터 처리에는 \*MVCC cache 기술을 사용하여 블록체인 노드에 들어오는 요청들을 처리하면서 병렬적으로 해당 요청들을 메모리에 캐시합니다. 이는 사용성과 성능을 개선시킵니다.
 
-The out-most layer is Commit Manager, which handles the management and maintenance of multi-version data. Higher layers, therefore, can treat the interface as a typical database and switch to any version at will.
+\*MVCC (Multiversion concurrency control, 다중 버전 병행 수행 제어)
+
+데이터베이스 레이어의 꼭대기, 즉 상위 레이어에는 커밋 매니저(Commit Manager)가 있습니다. 커밋 매니저는 다양한 버전의 데이터를 관리하고 유지합니다. 이렇게 상위 레이어에도 다양한 데이터를 가지고 있기 때문에, 이 인터페이스를 일종의 데이터베이스처럼 사용 할 수 있으며, 언제든지 다른 버전의 데이터로 전환할 수 있습니다.
