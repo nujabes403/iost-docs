@@ -1,24 +1,24 @@
 ---
 id: Design-Tech-data
-title: 행운의 베팅(Lucky Bet) 스마트 컨트랙트
-sidebar_label: 행운의 베팅(Lucky Bet) 스마트 컨트랙트
+title: Lucky Bet Smart Contract
+sidebar_label: Lucky Bet Smart Contract
 ---
 
-## 요약
+## Summary
 
-이 튜토리얼은 스마트 컨트랙트 코드 작성과 배포를 시연하기 위해서 제작되었습니다.
+The tutorial is designed to demonstrate smart contract coding and deployment. 
 
-IOST 노드에 컨트랙트를 \*로컬 배포하는 방법을 알려주어 실제로 '행운의 베팅' 스마트 컨트랙트를 배포하는 과정을 알려드립니다.
+It will give you instructions to deploy one IOST node locally(just for development, not connecting to the actual chain). Then a smart contract(a gambling game named 'Lucky Bet') will be deployed onto the node.
 
-\* 로컬 배포: 로컬 배포란 실제 IOST 블록체인에 연결하지 않은 채로 단일 노드에만 컨트랙트를 배포하는 것을 말합니다.
+The tutorials contains 3 parts. Part1 lists the step-by-step commands to deploy and run the smart contract. Part2 explains the contract javascript code. Part3 will give some details about the deployment and running instructions.
 
-이 튜토리얼은 세 파트로 구성됩니다. 파트1은 스마트 컨트랙트를 실행하고 배포하는 방법에 대해서 차근차근 알려드립니다. 다음으로 파트2는 자바스크립트로 작성한 스마트 컨트랙트 코드에 대해 설명합니다. 마지막으로 파트3은 배포와 컨트랙트 실행에 대해서 자세히 설명합니다.
+The readers are assumed to have basic knowledge of programming and blockchain.
+Following instructions are all run on Ubuntu 16.04.  
 
-대상 독자는 프로그래밍과 블록체인에 대한 기본 지식이 있는 상태라고 가정합니다.
-튜토리얼은 Ubuntu 16.04.버전을 기준으로 진행된 점을 알려드립니다.
+## Lucky Bet Rules
 
-## 행운의 베팅 규칙
+1. IOST Accounts can make a lucky bet with 1-5 IOST. Each bet is on a number of 0-9.
+2. When there are 100 bets, the number is revealed. Winners split 95% of all the stakes, and the rest 5% are taken as transaction fees.
+3. The Lucky Number is Block Height mod 10. If the last Lucky Number's block is not at least 16 blocks away, we requires the parent hash of the block to have 0 when modded by 16. Otherwise we do not reveal a lucky number.
 
-1. IOST 계정은 1-5 IOST 토큰으로 행운의 베팅을 할 수 있습니다. 각 베팅넘버는 0-9 범위에서 선택합니다.
-2. 총 베팅이 100개가 넘었을 때에, 행운의 숫자가 공개되고, 행운의 숫자를 맞춘 사람들은 행운의 베팅 참여비로 받았던 IOST 토큰의 95%를 나눠 가지고, 나머지 5%는 트랜잭션 수수료로 지불됩니다.
-3. 행운의 숫자는 블록 넘버를 10으로 나눈 나머지입니다. 행운의 숫자에는 특별한 규칙이 하나 더 있는데, 가장 최근의 행운의 숫자를 추첨한 블록으로 부터 16블록 이상 차이가 나지 않는다면, 해당 블록의 부모 해시(Parent hash)를 16으로 나눈 나머지가 0이 되었을 때에만 행운의 숫자를 공개하고, 그렇지 않으면 행운의 숫자를 공개하지 않습니다.
+

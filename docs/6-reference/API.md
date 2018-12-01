@@ -4,360 +4,331 @@ title: API
 sidebar_label: API
 ---
 
-### /estimateGas
 ---
-##### ***POST***
-**Summary:** 현재 지원되지 않습니다.
+## /getChainInfo
+Returns information of the IOST blockchain  
+### Parameters  
+None  
+### Response  
 
-**Parameters**
+| Key | Value |
+|--|--|
+| netType | This IOST blockchain network type. It can be one of 'debugnet', 'testnet' and 'mainnet' |
+|protocolVersion|Must be '1.0' now
+|witnessList|Current witness list
+|height|Current blockchain height
+|headBlock|Information of the head block on the longest chain.
+|headBlock.head.number|Height of the block
+|headBlock.head.witness|Witness(producer) of the block
+|headBlock.hash|Base58 encoded hash of the block
+|headBlock.txs|Transactions in the block. But the value is empty now.
+|headBlock.txhash|Base58 encoded transaction hashes in the block
+|headBlock.receipts|Receipts of the block. But the value is empty now.
+|headBlock.receiptHash|Base58 encoded receipt hashes of the block
+|latestConfirmedBlock| Information of the latest confirmed block. The json content structure is same as 'headBlock'
 
-| 이름 | 위치 | 설명 | 필수 파라미터 여부 | 스키마 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | Yes | [rpcRawTxReq](#rpcrawtxreq) |
+### Example
+```
+$ curl -s -X GET http://127.0.0.1:30001/getChainInfo|python -m json.tool
+{
+    "headBlock": {
+        "hash": "62LUg4MSavYphZTpCVgJaDKgqzDt8XutvfNDebiNW97N",
+        "head": {
+            "info": null,
+            "merkleHash": "x0H6sO25+ulV6yYIY+90lreD6LxE2YD+ks9OKbU1z/I=",
+            "number": "11",
+            "parentHash": "z7+vyuQUb9Bxxz7i+zE/r7LyvLu4rCYBOJ6scbsIn00=",
+            "time": "513312591",
+            "txsHash": "XEDPW7v09J+f3ZmLMyazw9vOzY/kGz5eyEQenRn32VQ=",
+            "version": "0",
+            "witness": "IOSTfQFocqDn7VrKV7vvPqhAQGyeFU9XMYo5SNn5yQbdbzC75wM7C"
+        },
+        "receiptHash": [
+            "43qkJuKgaMauLTv57q1pg4j5DYxieswPZqvS6epFUZHj"
+        ],
+        "receipts": [],
+        "txhash": [
+            "4RX7yVQNDvfWHYYLr5s9Cq6fAqyka3T9XTvk7y8H9qZv"
+        ],
+        "txs": []
+    },
+    "height": "11",
+    "latestConfirmedBlock": {
+        "hash": "62LUg4MSavYphZTpCVgJaDKgqzDt8XutvfNDebiNW97N",
+        "head": {
+            "info": null,
+            "merkleHash": "x0H6sO25+ulV6yYIY+90lreD6LxE2YD+ks9OKbU1z/I=",
+            "number": "11",
+            "parentHash": "z7+vyuQUb9Bxxz7i+zE/r7LyvLu4rCYBOJ6scbsIn00=",
+            "time": "513312591",
+            "txsHash": "XEDPW7v09J+f3ZmLMyazw9vOzY/kGz5eyEQenRn32VQ=",
+            "version": "0",
+            "witness": "IOSTfQFocqDn7VrKV7vvPqhAQGyeFU9XMYo5SNn5yQbdbzC75wM7C"
+        },
+        "receiptHash": [
+            "43qkJuKgaMauLTv57q1pg4j5DYxieswPZqvS6epFUZHj"
+        ],
+        "receipts": [],
+        "txhash": [
+            "4RX7yVQNDvfWHYYLr5s9Cq6fAqyka3T9XTvk7y8H9qZv"
+        ],
+        "txs": []
+    },
+    "netType": "debugnet",
+    "protocolVersion": "1.0",
+    "witnessList": [
+        "IOSTfQFocqDn7VrKV7vvPqhAQGyeFU9XMYo5SNn5yQbdbzC75wM7C"
+    ]
+}
+```
 
-**Responses**
-
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpcGasRes](#rpcgasres) |
-
-### /getBalance/{ID}/{useLongestChain}
 ---
-##### ***GET***
-**Summary:** account ID로 주어진 계정의 잔액을 조회합니다.
+## /getNodeInfo
+Returns information of the IOST server node  
+### Parameters  
+None  
+### Response  
 
-**Parameters**
+| Key | Value |
+|--|--|
+|gitHash|Git hash of the 'iserver' binary
+|buildTime|Building time of the 'server' binary
+|mode|Current mode of the server. It can be one of 'ModeInit', 'ModeNormal' and 'ModeSync'
+|network|Network information of the node 
+|network.ID|Node ID in the p2p network
+|network.peerCount|Peer count of the node
+|network.peerInfo|Peer information of the node
+|network.peerInfo[idx].ID|ID of the idx-th peer
+|network.peerInfo[idx].addr|Address of the idx-th peer
 
-| 이름 | 위치 | 설명 | 필수 파라미터 여부 | 스키마 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| ID | path |  | Yes | string |
-| useLongestChain | path |  | Yes | boolean (boolean) |
+### Example
+```
+$ curl -s -X GET http://127.0.0.1:30001/getNodeInfo|python -m json.tool
+{
+    "buildTime": "20181017_101014+0000",
+    "gitHash": "6248a34cd645681f09dd72eeb908398f9dc0c116",
+    "mode": "ModeNormal",
+    "network": {
+        "ID": "12D3KooWLYmeFqkumboHoSWfSUJz7RmwfMLwg7pMYjzEiFt4EZBK",
+        "peerCount": 2,
+        "peerInfo": [
+            {
+                "ID": "12D3KooWH8yqnJ7sb1NZijiXRLrg138XgJ7bf53Lu69ve4Sq3Pm3",
+                "addr": "/ip4/13.251.250.120/tcp/30000"
+            },
+            {
+                "ID": "12D3KooWAiRUbb8rk6YLWDPUYUCEi1rCvcA7rnn3RMCnRiksqEYJ",
+                "addr": "/ip4/13.237.106.39/tcp/30000"
+            }
+        ]
+    }
+}
+```
 
-**Responses**
-
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpcGetBalanceRes](#rpcgetbalanceres) |
-
-### /getBlockByHash/{hash}/{complete}
 ---
-##### ***GET***
-**Summary:** 블록해쉬로 블록 정보를 가져옵니다.
+## /getBlockByHash/{hash}/{complete}
+Returns information of the IOST server node  
+### Parameters  
 
-**Parameters**
+| Key | Value |
+|--|--|
+|hash|Base58 encoded hash for the requested block
+|complete|Whether to return full txs and receipts, or just return their hashes
+### Response  
+The same as the block info in 'getChainInfo' api  
+### Example  
+```
+$ curl -s -X GET http://127.0.0.1:30001/getBlockByHash/62LUg4MSavYphZTpCVgJaDKgqzDt8XutvfNDebiNW97N/true |python -m json.tool
+{
+    "hash": "62LUg4MSavYphZTpCVgJaDKgqzDt8XutvfNDebiNW97N",
+    "head": {
+        "info": null,
+        "merkleHash": "x0H6sO25+ulV6yYIY+90lreD6LxE2YD+ks9OKbU1z/I=",
+        "number": "11",
+        "parentHash": "z7+vyuQUb9Bxxz7i+zE/r7LyvLu4rCYBOJ6scbsIn00=",
+        "time": "513312591",
+        "txsHash": "XEDPW7v09J+f3ZmLMyazw9vOzY/kGz5eyEQenRn32VQ=",
+        "version": "0",
+        "witness": "IOSTfQFocqDn7VrKV7vvPqhAQGyeFU9XMYo5SNn5yQbdbzC75wM7C"
+    },
+    "receiptHash": [
+        "43qkJuKgaMauLTv57q1pg4j5DYxieswPZqvS6epFUZHj"
+    ],
+    "receipts": [
+        {
+            "gasUsage": "2015",
+            "receipts": [],
+            "status": {
+                "code": 0,
+                "message": ""
+            },
+            "succActionNum": 1,
+            "txHash": "MtsOqLIPqRuIkxjC7CcygaOu2m+g2lreKhz/WDqcWdU="
+        }
+    ],
+    "txhash": [
+        "4RX7yVQNDvfWHYYLr5s9Cq6fAqyka3T9XTvk7y8H9qZv"
+    ],
+    "txs": [
+        {
+            "actions": [
+                {
+                    "actionName": "SetCode",
+                    "contract": "iost.system",
+                    "data": "HERE WILL A LONG DATA STRING!! OMIT NOW!!"
+                }
+            ],
+            "expiration": "1540297771456526000",
+            "gasLimit": "3000",
+            "gasPrice": "1",
+            "publisher": {
+                "algorithm": 2,
+                "pubKey": "VzGt610agH7JxDglOJ5e3/cEEuRkOpRimmUq8b/PLwg=",
+                "sig": "9VTWs+KNKBda95GeamJy8UGzqW56rDh9+PKkp1B/JLQwi+suRe8ul6446IT+AW7ijkGdJ4ahw1bYgwhEDTjCDw=="
+            },
+            "signers": [],
+            "signs": [],
+            "time": "1539937771456530000"
+        }
+    ]
+}
+```
 
-| 이름 | 위치 | 설명 | 필수 파라미터 여부 | 스키마 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| hash | path |  | Yes | string |
-| complete | path |  | Yes | boolean (boolean) |
-
-**Responses**
-
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpcBlockInfo](#rpcblockinfo) |
-
-### /getBlockByNum/{num}/{complete}
 ---
-##### ***GET***
-**Summary:** 블록넘버로 블록 정보를 가져옵니다.
+## /getBlockByNum/{num}/{complete}
+Returns information of the IOST server node  
+### Parameters  
 
-**Parameters**
+| Key | Value |
+|--|--|
+|num|Num(height) for the requested block
+|complete|(optional) Whether to return full txs and receipts, or just return their hashes
+### Response  
+The same as the block info in 'getChainInfo' api  
+### Example  
+```
+$ curl -s -X GET http://127.0.0.1:30001/getBlockByNum/11/false |python -m json.tool
+{
+    "hash": "62LUg4MSavYphZTpCVgJaDKgqzDt8XutvfNDebiNW97N",
+    "head": {
+        "info": null,
+        "merkleHash": "x0H6sO25+ulV6yYIY+90lreD6LxE2YD+ks9OKbU1z/I=",
+        "number": "11",
+        "parentHash": "z7+vyuQUb9Bxxz7i+zE/r7LyvLu4rCYBOJ6scbsIn00=",
+        "time": "513312591",
+        "txsHash": "XEDPW7v09J+f3ZmLMyazw9vOzY/kGz5eyEQenRn32VQ=",
+        "version": "0",
+        "witness": "IOSTfQFocqDn7VrKV7vvPqhAQGyeFU9XMYo5SNn5yQbdbzC75wM7C"
+    },
+    "receiptHash": [
+        "43qkJuKgaMauLTv57q1pg4j5DYxieswPZqvS6epFUZHj"
+    ],
+    "receipts": [],
+    "txhash": [
+        "4RX7yVQNDvfWHYYLr5s9Cq6fAqyka3T9XTvk7y8H9qZv"
+    ],
+    "txs": []
+}
+```
 
-| 이름 | 위치 | 설명 | 필수 파라미터 여부 | 스키마 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| num | path |  | Yes | string (int64) |
-| complete | path |  | Yes | boolean (boolean) |
-
-**Responses**
-
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpcBlockInfo](#rpcblockinfo) |
-
-### /getHeight
 ---
-##### ***GET***
-**Summary:** 현재 블록체인의 높이를 가져옵니다. (가장 마지막 블록넘버)
+## /getTxByHash/{hash}
+Fetches the transaction by its base58 encoded hash  
+### Parameters  
 
-**Responses**
+| Key | Value |
+|--|--|
+|hash|Base58 encoded transaction hash
+### Response  
+The transaction information  
+### Example  
+```
+$ curl -s -X GET http://127.0.0.1:30001/getTxByHash/4RX7yVQNDvfWHYYLr5s9Cq6fAqyka3T9XTvk7y8H9qZv|python -m json.tool
+{
+    "hash": "4RX7yVQNDvfWHYYLr5s9Cq6fAqyka3T9XTvk7y8H9qZv",
+    "txRaw": {
+        "actions": [
+            {
+                "actionName": "SetCode",
+                "contract": "iost.system",
+                "data": "..."
+            }
+        ],
+        "expiration": "1540297771456526000",
+        "gasLimit": "3000",
+        "gasPrice": "1",
+        "publisher": {
+            "algorithm": 2,
+            "pubKey": "VzGt610agH7JxDglOJ5e3/cEEuRkOpRimmUq8b/PLwg=",
+            "sig": "9VTWs+KNKBda95GeamJy8UGzqW56rDh9+PKkp1B/JLQwi+suRe8ul6446IT+AW7ijkGdJ4ahw1bYgwhEDTjCDw=="
+        },
+        "signers": [],
+        "signs": [],
+        "time": "1539937771456530000"
+    }
+}
+```
 
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpcHeightRes](#rpcheightres) |
-
-### /getNetID
 ---
-##### ***GET***
-**Summary:** 네트워크 아이디(net id)를 가져옵니다.
+## /getTxReceiptByTxHash/{hash}
+Fetches receipt of a transaction by the base58 encoded hash of the transaction  
+### Parameters  
 
-**Responses**
+| Key | Value |
+|--|--|
+|hash|Base58 encoded transaction hash
+### Response  
+| Key | Value |
+|--|--|
+|hash|Base58 encoded hash of the receipt
+|txReceiptRaw.gasUsage|Gas used of this transaction
+|txReceiptRaw.status.code|Return code of this transaction. 0 means all things Ok
+|txReceiptRaw.status.message|Result message of this transaction. It can be empty or error message
+### Example  
+```
+$ curl -s -X GET http://127.0.0.1:30001/getTxReceiptByTxHash/4RX7yVQNDvfWHYYLr5s9Cq6fAqyka3T9XTvk7y8H9qZv|python -m json.tool
+{
+    "hash": "43qkJuKgaMauLTv57q1pg4j5DYxieswPZqvS6epFUZHj",
+    "txReceiptRaw": {
+        "gasUsage": "2015",
+        "receipts": [],
+        "status": {
+            "code": 0,
+            "message": ""
+        },
+        "succActionNum": 1,
+        "txHash": "MtsOqLIPqRuIkxjC7CcygaOu2m+g2lreKhz/WDqcWdU="
+    }
+}
+```
 
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpcGetNetIDRes](#rpcgetnetidres) |
-
-### /getState/{key}
 ---
-##### ***GET***
-**Summary:** 파라미터로 주어진 key로 stateDB에 저장된 값을 조회합니다.
-
-**Parameters**
-
-| 이름 | 위치 | 설명 | 필수 파라미터 여부 | 스키마 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| key | path |  | Yes | string |
-| field | query |  | No | string |
-
-**Responses**
-
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpcGetStateRes](#rpcgetstateres) |
-
-### /getTxByHash/{hash}
----
-##### ***GET***
-**Summary:** 트랜잭션 해시로 트랜잭션 정보를 조회합니다.
-
-**Parameters**
-
-| 이름 | 위치 | 설명 | 필수 파라미터 여부 | 스키마 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| hash | path |  | Yes | string |
-
-**Responses**
-
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpctxRes](#rpctxres) |
-
-### /getTxReceiptByHash/{hash}
----
-##### ***GET***
-**Summary:** 해시로 트랜잭션 영수증(receipt)을 조회합니다.
-
-**Parameters**
-
-| 이름 | 위치 | 설명 | 필수 파라미터 여부 | 스키마 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| hash | path |  | Yes | string |
-
-**Responses**
-
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpctxReceiptRes](#rpctxreceiptres) |
-
-### /getTxReceiptByTxHash/{hash}
----
-##### ***GET***
-**Summary:** 트랜잭션 해시를 통해 트랜잭션 영수증(receipt)을 조회합니다.
-
-**Parameters**
-
-| 이름 | 위치 | 설명 | 필수 파라미터 여부 | 스키마 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| hash | path |  | Yes | string |
-
-**Responses**
-
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpctxReceiptRes](#rpctxreceiptres) |
-
-### /sendRawTx
----
-##### ***POST***
-**Summary:** 인코드 된 트랜잭션을 전송합니다.
-
-**Parameters**
-
-| 이름 | 위치 | 설명 | 필수 파라미터 여부 | 스키마 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | Yes | [rpcRawTxReq](#rpcrawtxreq) |
-
-**Responses**
-
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 |  | [rpcSendRawTxRes](#rpcsendrawtxres) |
-
-### /subscribe
----
-##### ***POST***
-**Summary:** 이벤트를 구독합니다.
-
-**Parameters**
-
-| 이름 | 위치 | 설명 | 필수 파라미터 여부 | 스키마 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | Yes | [rpcSubscribeReq](#rpcsubscribereq) |
-
-**Responses**
-
-| 코드 | 설명 | 스키마 |
-| ---- | ----------- | ------ |
-| 200 | (streaming responses) | [rpcSubscribeRes](#rpcsubscriberes) |
-
-### Models
----
-
-### EventTopic  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| EventTopic | string |  |  |
-
-### blockBlockHead  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| version | string (int64) |  | No |
-| parentHash | byte |  | No |
-| txsHash | byte |  | No |
-| merkleHash | byte |  | No |
-| info | byte |  | No |
-| number | string (int64) |  | No |
-| witness | string |  | No |
-| time | string (int64) |  | No |
-
-### cryptoSignatureRaw  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| algorithm | integer |  | No |
-| sig | byte |  | No |
-| pubKey | byte |  | No |
-
-### eventEvent  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| topic | [EventTopic](#eventtopic) |  | No |
-| data | string |  | No |
-| time | string (int64) |  | No |
-
-### rpcBlockInfo  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| head | [blockBlockHead](#blockblockhead) |  | No |
-| hash | byte |  | No |
-| txs | [ [txTxRaw](#txtxraw) ] |  | No |
-| txhash | [ byte ] |  | No |
-| receipts | [ [txTxReceiptRaw](#txtxreceiptraw) ] |  | No |
-| receiptHash | [ byte ] |  | No |
-
-### rpcGasRes  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| gas | string (uint64) |  | No |
-
-### rpcGetBalanceRes  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| balance | string (int64) |  | No |
-
-### rpcGetNetIDRes  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| ID | string |  | No |
-
-### rpcGetStateRes  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| value | string |  | No |
-
-### rpcHeightRes  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| height | string (int64) |  | No |
-
-### rpcRawTxReq  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| data | byte |  | No |
-
-### rpcSendRawTxRes  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| hash | string |  | No |
-
-### rpcSubscribeReq  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| topics | [ [EventTopic](#eventtopic) ] |  | No |
-
-### rpcSubscribeRes  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| ev | [eventEvent](#eventevent) |  | No |
-
-### rpctxReceiptRes  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| txReceiptRaw | [txTxReceiptRaw](#txtxreceiptraw) |  | No |
-| hash | byte |  | No |
-
-### rpctxRes  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| txRaw | [txTxRaw](#txtxraw) |  | No |
-| hash | byte |  | No |
-
-### txActionRaw  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| contract | string |  | No |
-| action이름 | string |  | No |
-| data | string |  | No |
-
-### txReceiptRaw  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| type | integer |  | No |
-| content | string |  | No |
-
-### txStatusRaw  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| code | integer |  | No |
-| message | string |  | No |
-
-### txTxRaw  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| time | string (int64) |  | No |
-| expiration | string (int64) |  | No |
-| gasLimit | string (int64) |  | No |
-| gasPrice | string (int64) |  | No |
-| actions | [ [txActionRaw](#txactionraw) ] |  | No |
-| signers | [ byte ] |  | No |
-| signs | [ [cryptoSignatureRaw](#cryptosignatureraw) ] |  | No |
-| publisher | [cryptoSignatureRaw](#cryptosignatureraw) |  | No |
-
-### txTxReceiptRaw  
-
-| 이름 | 타입 | 설명 | 필수 파라미터 여부 |
-| ---- | ---- | ----------- | -------- |
-| txHash | byte |  | No |
-| gasUsage | string (int64) |  | No |
-| status | [txStatusRaw](#txstatusraw) |  | No |
-| succActionNum | integer |  | No |
-| receipts | [ [txReceiptRaw](#txreceiptraw) ] |  | No |
+## /getTxReceiptByHash/{hash}
+Fetches a receipt by its base58 encoded hash  
+### Parameters  
+
+| Key | Value |
+|--|--|
+|hash|Base58 encoded receipt hash
+### Response  
+Retruns a receipt info with the same json structure as in `getTxReceiptByTxHash`  
+### Example  
+```
+curl -s -X GET http://127.0.0.1:30001/getTxReceiptByHash/43qkJuKgaMauLTv57q1pg4j5DYxieswPZqvS6epFUZHj|python -m json.tool
+{
+    "hash": "43qkJuKgaMauLTv57q1pg4j5DYxieswPZqvS6epFUZHj",
+    "txReceiptRaw": {
+        "gasUsage": "2015",
+        "receipts": [],
+        "status": {
+            "code": 0,
+            "message": ""
+        },
+        "succActionNum": 1,
+        "txHash": "MtsOqLIPqRuIkxjC7CcygaOu2m+g2lreKhz/WDqcWdU="
+    }
+}
+```
+
+
+ 

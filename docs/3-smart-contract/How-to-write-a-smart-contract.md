@@ -1,33 +1,33 @@
 ---
 id: How-to-write-a-smart-contract
-title: 스마트 컨트랙트 작성하기
-sidebar_label: 스마트 컨트랙트 작성하기
+title: How to Write a Smart Contract
+sidebar_label: How to Write a Smart Contract
 ---
 
-## 기본 안내사항
+## Basic Information
 
-### 지원되는 언어
+### Language supported
 
-현재 IOST 스마트 컨트랙트로 지원되는 언어는 자바스크립트입니다.
+Currently, IOST smart contracts supports JavaScript.
 
-### 런타임 환경
+### Runtime environment
 
-IOST는 내부적으로 [Chrome V8] 엔진을 이용하여 컨트랙트를 실행합니다.
+Internally, IOST employs [Chrome V8](https://developers.google.com/v8/) engine to run the contracts.
 
-## 스마트 컨트랙트 프로그래밍 가이드
+## Smart Contract Programming Guides
 
-### 스마트 컨트랙트 구현하기
+### Implementing smart contracts
 
-IOST에서 스마트 컨트랙트를 구현할 때에는 자바스크립트의 `class`를 사용합니다. 이 `class`는 꼭 `export`가 되어야 합니다.
+In IOST, smart contracts will be coded into a JavaScript `class`. When using it, you need to explicitly `export` the class.
 
-#### 스마트 컨트랙트 구조
+#### Structure of a smart contract
 
-IOST 스마트 컨트랙트는 `Init`과 `Constructor` 함수(메서드)를 반드시 자바스크립트 클래스 내부에 선언해야 합니다.
+A smart contract class must include `Init` and `Constructor` functions.
 
-- `Init` 메서드 내부에 작성되는 코드는 컨트랙트가 배포 되었을 때 불리는 코드입니다. 주로 컨트랙트의 변수들에 초기 값을 설정할 때 사용됩니다.
-- `Construct` 메서드 내부에 작성되는 코드는 컨트랙트가 호출될 때마다 불리는 코드입니다. 주로 스마트 컨트랙트의 클래스를 초기화 하거나 스마트 컨트랙트의 데이터를 읽어올 때 사용됩니다.
+- `Init` is run when a contract is deployed. It usually contains code to initialize properties of the contract.
+- `Construct` is run when a contract is called. It's usually used to initialize classes of the smart contract, and read persistent smart contract data.
 
-위의 두 메서드 외에도, 사용자 정의 메서드를 작성할 수 있습니다. 아래는 `Transfer` 라는 사용자 정의 함수를 추가한 예제 코드입니다.
+Apart from these two functions, developers can define other functions as needed. Below is a template of a simple smart contract that has `Transfer` functionalities.
 
 ```javascript
 class Test {
@@ -49,13 +49,14 @@ class Test {
 module.exports = Test;
 ```
 
-## 내부 클래스 사용하기
+## Using an Internal Class
 
-### IOSTContractStorage 클래스
+### IOSTContra
+ctStorage Class
 
-기본적으로 모든 변수들은 런타임에 메모리에 저장되게 되는데, IOST는 `IOSTContractStorage`라는 클래스를 제공하여 데이터를 스마트 컨트랙트 내부에 영구적으로 저장(영속) 할 수 있습니다.
+All variables will be stored in memory in runtime. IOST provides `IOSTContractStorage` class to help developers persist data in smart contracts.
 
-이 클래스는 데이터를 동기화하는데에도 사용될 수 있습니다.
+Developers may use this class to synchronize data during multiple contract calls.
 
 ```javascript
 let IOSTContractStorage = (function () {
@@ -141,11 +142,11 @@ module.exports = IOSTContractStorage;
 
 ```
 
-### BlockChain 클래스
+### BlockChain class
 
-BlockChain 클래스는 IOST 블록체인과 관련된 공식 메서드를 호출 할 수 있는 기능을 제공합니다. 이러한 공식 메서드에는 돈을 전송하는 메서드나, 다른 컨트랙트를 호출하거나, 특정 블록이나 트랜잭션의 정보를 가져오는 것 등등이 포함됩니다.
+BlockChain class provides all methods for the system to call, and helps the user to call official APIs, including but not limited to transfering, wiring money, calling other contracts, and looking up a block or transaction.
 
-BlockChain 클래스의 상세 코드는 아래와 같습니다:
+Detailed interfaces are listed below:
 
 ```javascript
 let BlockChain = (function () {
@@ -217,9 +218,9 @@ module.exports = BlockChain;
 ```
 
 
-### Int64 타입
+### Int64 Type
 
-현재 IOST는 큰 수에 대해서 `Int64`의 타입만을 지원하고 있습니다. (현재 버전에서는 다른 타입을 사용하는 것은 자제해주세요.)
+Currently, IOST only support big numbers of type `Int64`. Please refrain from using other number types.
 
 ```javascript
 'use strict';

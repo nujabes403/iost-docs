@@ -1,19 +1,19 @@
 ---
 id: Environment-Configuration
-title: 환경 설정
-sidebar_label: 환경 설정
+title: Environment & Configuration
+sidebar_label: Environment & Configuration
 ---
 
-## 준비물
+## Prerequisites
 
-* Go 1.9 버전 이상(Go 1.11 버전을 권장합니다.)
-* `git-lfs` (v2.5.2을 권장합니다.)
-* Rocksdb v5.14.3 버전 이상
-* Docker v18.06.0-ce 버전 이상 (이하의 버전에서는 테스트가 되지 않았습니다.)
+* Go 1.9 or newer (Go 1.11 recommended)
+* `git-lfs` (v2.5.2 recommended)
+* Rocksdb v5.14.3 or newer
+* Docker v18.06.0-ce or newer (older versions are not tested)
 
 ## Environment
 
-현재 IOST 테스트넷 개발환경은 Mac OS X, Ubuntu/Linux, Docker를 지원하고 있습니다:
+Currently, you can develop and deploy on below environments:
 
 * [Mac OS X](#mac-os-x)
 * [Ubuntu/Linux](#ubuntu-linux)
@@ -21,20 +21,20 @@ sidebar_label: 환경 설정
 
 ## Mac OS X
 
-### git-lfs 설치하기
+### Installing git-lfs
 
 ```
 brew install git-lfs
 git lfs install
 ```
 
-### rocksdb 설치하기
+### Installing rocksdb
 
 ```
 brew install rocksdb
 ```
 
-### 컴파일 & 유닛테스트
+### Compiling and unit tests
 
 ```
 git clone git@github.com:iost-official/go-iost.git
@@ -44,14 +44,14 @@ make test
 
 ## Ubuntu/Linux
 
-### git-lfs 설치하기
+### Installing git-lfs
 
 ```
 brew install git-lfs
 git lfs install
 ```
 
-### rocksdb 설치하기
+### Installing rocksdb
 
 ```
 apt install -y libgflags-dev libsnappy-dev zlib1g-dev libbz2-dev liblz4-dev libzstd-dev
@@ -59,7 +59,7 @@ git clone -b "v5.14.3" https://github.com/facebook/rocksdb.git && \
 cd rocksdb && make static_lib && make install-static
 ```
 
-### 컴파일 & 유닛 테스트
+### Compiling and unit tests
 
 ```
 git clone git@github.com:iost-official/go-iost.git
@@ -69,17 +69,17 @@ make test
 
 ## Docker
 
-### 도커 설치하기
+### Installing docker
 
 #### Mac OS X
 
-Mac OS X에 도커를 설치하신다면, [공식문서](https://docs.docker.com/docker-for-mac/install/)를 참조해주세요.
+Refer to [Official Documents](https://docs.docker.com/docker-for-mac/install/) to install on Mac OS X.
 
 #### Ubuntu/Linux
 
-Ubuntu에 도커를 설치하신다면, [공식문서](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository)를 참조해주세요.
+Refer to [Official Documents](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository) to install on Ubuntu.
 
-### 컴파일 & 유닛 테스트
+### Compiling and unit tests
 
 ```
 git clone git@github.com:iost-official/go-iost.git
