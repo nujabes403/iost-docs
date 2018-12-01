@@ -4,23 +4,23 @@ title: iServer
 sidebar_label: iServer
 ---
 
-## Launching iServer
+## iServer 구동하기
 
-IOST node service iServer includes consensus, synchronization, transaction pool and network modules. Launch iServer service to deploy IOST nodes.
+IOST 노드 서비스인 iServer에는 합의(consensus), 동기화, 트랜잭션 풀, 네트워크 모듈이 포함되어있습니다. IOST node를 띄우기 위해서 iServer 서비스를 구동해보겠습니다.
 
-* To compile the project in the root directory, run the following command and the executables will be saved the `target` directory in the root folder.
+* go-iost의 루트 디렉토리에서 컴파일을 하면 `target` 디렉토리에 iServer와 iWallet 실행 파일을 만들게 됩니다. 다음의 명령어를 입력하세요.
 
 ```
 make build
 ```
 
-* Use the below command to run the IOST node
+* IOST 노드를 구동하기 위해서 아래의 명령어를 입력하세요.
 
 ```
 ./target/iserver -f ./config/iserver.yaml
 ```
 
-* Change ./config/iserver.yaml configuration file
+* ./config/iserver.yaml 설정 파일을 아래와 같이 변경하세요. YOUR_ID와 YOUR_SECRET_KEY에 IOST 계정의 아이디와 프라이빗 키를 입력합니다.
 
 ```
 acc:
@@ -29,7 +29,7 @@ acc:
   algorithm: ed25519
 ```
 
-* Set node account information
+* `genesis` - 동일한 파일(.config/iserver.yaml)에서 제네시스 블록 정보를 아래와 같이 입력합니다.
 
 ```
 genesis:
@@ -40,7 +40,7 @@ genesis:
   votecontractpath: config/
 ```
 
-* Set up genesis block information and witness the block and amount.
+* `vm` `db` - vm과 db 경로를 설정합니다.
 
 
 ```
@@ -50,14 +50,12 @@ vm:
 
 ```
 
-
 ```
 db:
   ldbpath: storage/
 ```
 
-Set up database location.
-
+* `p2p` - 네트워크 정보를 설정합니다. 이 정보는 시드 노드가 네트워크에 접근하는데에 필요합니다.
 
 ```
 p2p:
@@ -68,7 +66,7 @@ p2p:
   datapath: p2p/
 ```
 
-Set up network information. This requires setting up seed nodes to access the network.
+* `rpc` - rpc 포트를 설정합니다.
 
 ```
 rpc:
@@ -76,7 +74,7 @@ rpc:
   grpcport: 30002
 ```
 
-Set up RPC ports.
+* `log` - log 서비스를 설정합니다.
 
 
 ```
@@ -91,7 +89,7 @@ log:
   asyncwrite: true
 ```
 
-Set up logging services.
+* `metrics` - 메트릭 서비스를 설정합니다.
 
 
 ```

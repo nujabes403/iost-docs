@@ -4,32 +4,32 @@ title: iWallet
 sidebar_label: iWallet
 ---
 
-**IOSBlockchain** has two programs: `iServer` is the core program and multiple `iServer` forms the blockchain network. `iWallet` is a command line tool to interact with `iServer` blockchain.
+**IOSTBlockchain** 은 두 가지 프로그램으로 구성됩니다: `iServer` 가 가장 핵심이 되는 프로그램으로, 여러개의 `iServer` 프로그램이 IOST 블록체인 네트워크를 구성합니다. `iWallet` 은 CLI로 `iServer` 프로그램과 상호작용하는데에 사용됩니다.
 
-After successfully `build`ing the system, `iWallet` is in the `target/` folder in the project directory.
+시스템을 빌드(`build`) 하는데에 성공했다면, `iWallet` 프로그램과 `iServer` 프로그램은 프로젝트 디렉토리의 `target/` 폴더에 생성되어 있습니다.
 
-![iwallet1](assets/4-running-iost-node/iWallet/iwallet.png)
+![iWallet](../assets/4-running-iost-node/iWallet/iwallet.png)
 
-## Commands
+## 명령어 목록
 
-|Command      |Contents                                |Description
+|명령어      |내용                                |실행 예
 |:-----------:|:--------------------------------------:|:--------------------------------------------|
-|help         |Help about any command                  |  using iwallet -h to get further infomation
-|account      |Account manage                          |  ./iwallet account -n id
-|balance      |check balance of specified account      |  ./iwallet balance ~/.iwallet/id_ed25519.pub
-|block        |print block info, default find by block number   |  
-|call         |Call a method in some contract          |  ./iwallet call "iost.system" "Transfer" '["fromID", "toID", 100]' -k SecKeyPath --expiration 50
-|compile      |Compile contract files to smart contract|  ./iwallet compile -e 3600 -l 100000 -p 1 ./test.js ./test.js.abi
-|net          |Get network id                          |  ./iwallet net
-|publish      |sign to a .sc file with .sig files, and publish it        |./iwallet publish -k ~/.iwallet/id_ed25519 ./dashen.sc ./dashen.sig0 ./dashen.sig1
-|sign         |Sign to .sc file                        |  ./iwallet sign -k ~/.iwallet/id_ed25519 ./test.sc
-|transaction  |find transaction by transaction hash    |  ./iwallet transaction HUVdKWhstUHbdHKiZma4YRHGQZwVXerh75hKcXTdu39t
+|help         |iWallet의 명령어 안내 기능                  |  ./iwallet -h
+|account      |계정 관리 기능                             |  ./iwallet account -n id
+|balance      |특정 계정의 잔액(balance) 조회 기능           |  ./iwallet balance ~/.iwallet/id_ed25519.pub
+|block        |블록 정보 출력 기능                         |  ./iwallet block -m num 0
+|call         |컨트랙트의 함수 호출 기능                     |  ./iwallet call "iost.system" "Transfer" '["fromID", "toID", 100]' -k SecKeyPath --expiration 50
+|compile      |컨트랙트 파일 컴파일 기능                     |  ./iwallet compile -e 3600 -l 100000 -p 1 ./test.js ./test.js.abi
+|net          |네트워크 ID 조회 기능                       |  ./iwallet net
+|publish      |.sc 파일 서명 후 컨트랙트 배포 기능            |./iwallet publish -k ~/.iwallet/id_ed25519 ./dashen.sc ./dashen.sig0 ./dashen.sig1
+|sign         |.sc file 서명 기능                        |  ./iwallet sign -k ~/.iwallet/id_ed25519 ./test.sc
+|transaction  |트랜잭션 조회 기능(트랜잭션 해시로 조회)          |  ./iwallet transaction HUVdKWhstUHbdHKiZma4YRHGQZwVXerh75hKcXTdu39t
 
-## Command Examples
+## 명령어 사용 예제
 
 ### help:
 
-Look up `iwallet` helping information
+`iwallet`의 명령어 안내 기능을 출력합니다.
 
 ```
 ./iwallet -h
@@ -37,7 +37,7 @@ Look up `iwallet` helping information
 
 ### account:
 
-Create an IOST accouunt, with corresponding public and private keys saved in the `~/.iwallet/` directory.
+IOST 계정을 생성하고 계정의 퍼블릭 키와 프라이빗 키를 `~/.iwallet/` 경로에 저장합니다.
 
 ```
 ./iwallet account -n id
@@ -48,7 +48,7 @@ IOSTPVgmuin4vxcqxLvNQ2XnRxPk64MtDkanQEZ4ttkysbjPD6XiW
 
 ### balance:
 
-Look up account balance:
+계정의 잔액을 조회합니다.
 
 ```
 ./iwallet balance IOSTPVgmuin4vxcqxLvNQ2XnRxPk64MtDkanQEZ4ttkysbjPD6XiW
@@ -58,7 +58,7 @@ return:
 
 ### block:
 
-Look up block with hash:
+블록 정보를 조회합니다. (블록 해시나 블록넘버를 통해 조회가능합니다.)
 
 ```
 # 查询0号block数据
@@ -69,7 +69,7 @@ return:
 
 ### call:
 
-You can `call` an on-chain contract's methods.
+배포된 컨트랙트의 메서드를 호출하는데에 `call`을 사용합니다.
 
 ```
 # Calls iost.system contract's Transfer method，Account IOSTjBxx7sUJvmxrMiyjEQnz9h5bfNrXwLinkoL9YvWjnrGdbKnBP transfers Account IOSTEj4hBu1b3WwGKscUpcdE7ULtMAPbazt1VeALcvf28CDHc5oAk 100 token,
@@ -82,7 +82,7 @@ ok
 
 ### net:
 
-`net` command obtains the network address of iserver.
+`net` 명령어는 iServer의 네트워크 아이디를 출력합니다.
 
 ```
 ./iwallet net
@@ -93,7 +93,7 @@ netId: 12D3KooWNdJgdRAAYoHvrYgCHhNEXS9p7LshjmJWJhDApMXCfahk
 
 ### transaction:
 
-`transaction` command is used for look-ups
+`transaction` 명령어는 트랜잭션 ID(트랜잭션 해시)를 조회할 때에 사용됩니다.
 
 ```
 ./iwallet transaction 8LaUT2gbZeTG8Ev988DELNjCWSMQ369uGHAhUUWEHxuV
@@ -102,6 +102,6 @@ txRaw:<time:1537540108548894481 expiration:1537540158548891677 gasLimit:1000 gas
 
 ```
 
-### compile/publish/sign:
+### 컴파일/배포/서명:
 
-Please refer to [Deployment-and-invocation](../3-smart-contract/Deployment-and-invocation)
+[배포와 실행](../3-smart-contract/Deployment-and-invocation)챕터를 참조해주세요.
