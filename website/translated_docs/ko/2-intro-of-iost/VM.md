@@ -16,10 +16,7 @@ VM매니저(VMManager)는 V8VM의 핵심요소로 세 가지의 주요기능이 
 ## 2. 샌드박스 핵심 설계(Sandbox core design)
 
 ![statedb](../assets/2-intro-of-iost/VM/sandbox.png)
-자바스크립트 스마트 컨트랙트 실행 시에, 샌드박스는 V8VM과 상호작용 하고,
-컴파일과 실행의 두 단계가 있습니다.
-// TODO
-As the payload of JavaScript smart contract execution, Sandbox interfaces with V8VM, and packs for calling in Chrome V8. There are two stages, Compile and Execution.
+자바스크립트 스마트 컨트랙트 실행 시에, 샌드박스는 V8VM을 인터페이스하고 호출된 컨트랙트 함수를 크롬 V8에서 실행되게 합니다. 컨트랙트를 실행하기 위해서는 1)컴파일과, 2)실행 두 단계가 필요합니다. 이 단계들에 대해서 설명하도록 하겠습니다.
 
 ### 컴파일 단계
 컴파일 단계에서는 스마트 컨트랙트 개발과 배포를 위한 두 가지 기능을 제공합니다.
